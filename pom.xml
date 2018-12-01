@@ -37,10 +37,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <!--in memory DB -->
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -48,18 +48,15 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-
         <dependency>
-            <groupId>com.github.vbauer</groupId>
-            <artifactId>yandex-translate-api</artifactId>
-            <version>1.4.1</version>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.1</version>
         </dependency>
-
         <dependency>
-            <groupId>yandex-translate</groupId>
-            <artifactId>yandex-translate</artifactId>
-            <version>0.1.0</version>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.4.1</version>
         </dependency>
     </dependencies>
 
@@ -73,12 +70,6 @@
     </build>
 
     <repositories>
-
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-
         <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
