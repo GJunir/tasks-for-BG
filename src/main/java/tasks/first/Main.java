@@ -2,6 +2,7 @@ package tasks.first;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.lang.Thread.sleep;
 
@@ -13,6 +14,7 @@ public class Main {
     private volatile List<Integer> input = new ArrayList<>();
     private Semaphore semaphore = new Semaphore(0);
     private final Object sync = new Object();
+    private AtomicBoolean ab = new AtomicBoolean(false);
 
     public static void main(String[] args) {
         try {
@@ -22,7 +24,7 @@ public class Main {
         }
     }
 
-    public void starter() throws InterruptedException { //aaawwww so hard not to write fireStarter
+    public void starter() throws InterruptedException {
         Thread reader = new Thread(new Reader());
         Thread writer = new Thread(new Writer());
         reader.start();
@@ -43,6 +45,7 @@ public class Main {
                     semaphore.release();
                 }
             }
+            ab.set(false);
         }
 
         @Override
@@ -50,7 +53,7 @@ public class Main {
             try {
                 reader();
             } catch (ParseException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -59,13 +62,13 @@ public class Main {
 
         @Override
         public void run() {
+            label:
             while (true) {
                 try {
-                    if (input.isEmpty()) return;
-                    System.out.println("get in there");
                     semaphore.acquire();
                     sleep(5000);
                     writer();
+                    if(ab.get()) break label;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -75,8 +78,16 @@ public class Main {
         private void writer() {
                 synchronized (sync) {
                     input.sort(Integer::compareTo);
-                    System.out.println(input.remove(0));
+                    if (!input.get(0).equals(0)) {
+                        Integer min = input.get(0);
+                        System.out.println(min);
+                        input.remove(min);
+                    }
                 }
         }
     }
 }
+//one hundred forty
+//two
+//forty
+//sixty two

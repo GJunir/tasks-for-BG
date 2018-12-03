@@ -84,7 +84,7 @@ public abstract class Converter {
                 return 20;
             case "thirty" :
                 return 30;
-            case "fourty" :
+            case "forty" :
                 return 40;
             case "fifty":
                 return 50;
