@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
-public class Employee {
+public class User {
 
     @Id
     UUID id;

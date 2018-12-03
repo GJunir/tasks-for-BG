@@ -2,8 +2,7 @@ package tasks.first;
 
 public abstract class Converter {
 
-    //Sure, i can use StringTokenizer, but this is my little cycle (ツ)
-    public static int parse(String s) throws ParseException {
+    public static Integer parse(String s) throws ParseException {
         final String[] depthTokens = {"ty","teen", "hundred", "thousand"};
         Integer result = 0;
         String[] tokens =  s.split(" ");

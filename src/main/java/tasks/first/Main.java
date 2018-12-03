@@ -1,50 +1,82 @@
 package tasks.first;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.Semaphore;
 
-public class Main implements Runnable {
+import static java.lang.Thread.sleep;
 
-    private final static Main instance = new Main();
-    private Thread readerThread = new Thread() {
+public class Main {
+
+    private static final Main instance = new Main();
+
+    private static Scanner scanner = new Scanner(System.in, "UTF-8");
+    private volatile List<Integer> input = new ArrayList<>();
+    private Semaphore semaphore = new Semaphore(0);
+    private final Object sync = new Object();
+
+    public static void main(String[] args) {
+        try {
+            instance.starter();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void starter() throws InterruptedException { //aaawwww so hard not to write fireStarter
+        Thread reader = new Thread(new Reader());
+        Thread writer = new Thread(new Writer());
+        reader.start();
+        writer.start();
+        reader.join();
+        writer.join();
+    }
+
+    class Reader implements Runnable {
+
+        private void reader() throws ParseException {
+            String s;
+            System.out.println("Write numbers");
+            while (!(s = scanner.nextLine()).equals("")) {
+                Integer number = Converter.parse(s);
+                synchronized (sync) {
+                    input.add(number);
+                    semaphore.release();
+                }
+            }
+        }
+
         @Override
-        public void run() {
+        synchronized public void run() {
             try {
                 reader();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
-        }
-    };
-
-    @Override
-    public void run() {
-        try {
-            reader();
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
     }
-    private Thread writerThread = new Thread();
-    private static List<String> input = new ArrayList<>();
 
-    private Scanner scanner = new Scanner(System.in, "UTF-8");
+    class Writer implements Runnable {
 
-    private int reader() throws ParseException {
-            String s;
-            int min = 10_000;
-            while (!(s = scanner.nextLine()).equals("")) {
-                input.add(s);
-                int number = Converter.parse(s);
-                if  (number < min) min = number;
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    if (input.isEmpty()) return;
+                    System.out.println("get in there");
+                    semaphore.acquire();
+                    sleep(5000);
+                    writer();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            return min;
-    }
+        }
 
-    public static void main(String[] args) throws ParseException {
-        int min = instance.reader();
-        System.out.println(min);
+        private void writer() {
+                synchronized (sync) {
+                    input.sort(Integer::compareTo);
+                    System.out.println(input.remove(0));
+                }
+        }
     }
 }
