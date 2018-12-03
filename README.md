@@ -2,11 +2,12 @@
 ## First Task
 Execute main method at tasks.first.Main
 ## Second Task
-Go to project root folder and write at command line: mvn spring-boot:run
+Go to project root folder and execute at command line: mvn spring-boot:run
 
-Test services with
+Test service with
 - Add user: 
 curl localhost:8080/add/user/junir/gabidullin/22.11.1994/g.junir@gmail.com/AwwwWhereIsEncryptingBoooi
+i.e curl localhost:8080/add/user/{firstName}/{LastName}/{birhday}/{email}/{password}
 - Find user:
 curl localhost:8080/find/user/g.junir@gmail.com
 - Show all users:
