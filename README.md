@@ -2,7 +2,7 @@
 ## First Task
 Execute main method at tasks.first.Main
 ## Second Task
-Go to project root folder and write at command line: mvn spring-boot:run
+Go to project root folder and execute at command line: mvn spring-boot:run
 
 Test services with
 - Add user: 
