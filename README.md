@@ -11,9 +11,9 @@ i.e curl localhost:8080/add/user/{firstName}/{LastName}/{birhday}/{email}/{passw
 - Find user:
 curl localhost:8080/find/user/g.junir@gmail.com
 - Show all users:
-localhost:8080/all
+curl localhost:8080/all
 - Delete user:
-localhost:8080/delete/user/g.junir@gmail.com
+curl localhost:8080/delete/user/g.junir@gmail.com
 ## Third task
 Execute main method at tasks.third.YTranslate
 
